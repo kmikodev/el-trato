@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C6 · Cuánto os movisteis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Martian+Mono:wdth,wght@75..112.5,300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/dilema.css">
+</head>
+<body class="comun">
+<div class="escenario">
+  <canvas class="lluvia" data-modo="fondo"></canvas>
+  <div class="franja">Maqueta · el trato · cifras de ejemplo, enunciado sin cerrar (#1) &nbsp;·&nbsp; tecla P: patrón (#17)</div>
+  <div class="capa">
+    <span class="filete filete--activo filete--corto"></span>
+    <div class="etiqueta etiqueta--viva" style="margin-top:calc(1.1 * var(--u))">Cuánto os movisteis, y por qué</div>
+
+    <div style="height:calc(2.4 * var(--u))"></div>
+
+    <!-- Las tres medidas en fila: la clave es que la de en medio existe. -->
+    <div style="display:flex;gap:calc(3 * var(--u));align-items:flex-start">
+
+      <div style="flex:1">
+        <div class="etiqueta etiqueta--apagada">Al principio</div>
+        <div class="dato" style="font-size:calc(6 * var(--u));color:var(--tinta);margin-top:calc(.6 * var(--u))">44 €</div>
+        <span class="filete filete--suave" style="margin-top:calc(1 * var(--u))"></span>
+        <p class="cuerpo cuerpo--menor" style="margin-top:calc(1 * var(--u))">
+          Lo que ofrecisteis de media sin saber nada.
+        </p>
+      </div>
+
+      <div style="flex:1">
+        <div class="etiqueta etiqueta--apagada">Después del destape</div>
+        <div class="dato" style="font-size:calc(6 * var(--u));color:var(--tinta);margin-top:calc(.6 * var(--u))">41 €</div>
+        <span class="filete filete--suave" style="margin-top:calc(1 * var(--u))"></span>
+        <p class="cuerpo cuerpo--menor" style="margin-top:calc(1 * var(--u))">
+          Ya sabíais si os aceptaron y qué era el otro. <b>El agente aún no había
+          hablado.</b> Bajasteis 3 €.
+        </p>
+      </div>
+
+      <div style="flex:1.15">
+        <div class="etiqueta etiqueta--viva">Después de la premisa</div>
+        <div class="dato" style="font-size:calc(6 * var(--u));margin-top:calc(.6 * var(--u))">49 €</div>
+        <span class="filete filete--activo" style="margin-top:calc(1 * var(--u))"></span>
+        <p class="cuerpo cuerpo--menor" style="margin-top:calc(1 * var(--u))">
+          <b>+8 €.</b> Es el único tramo que el agente puede reclamar como suyo, porque
+          es el único en el que no pasó nada más.
+        </p>
+      </div>
+
+    </div>
+
+    <div style="flex:1;min-height:calc(1.5 * var(--u))"></div>
+
+    <span class="filete filete--suave" style="width:44%"></span>
+    <p class="cuerpo" style="margin-top:calc(1.3 * var(--u));max-width:92ch">
+      Se preguntó dos veces a propósito. Si sólo se hubiera preguntado al final, esos
+      8 € y esos 3 € serían un solo número de +5 €, y no habría forma de saber si os movió
+      el argumento o el dinero que acababais de cobrar.
+    </p>
+  </div>
+</div>
+<script src="shared/datos.js"></script>
+<script src="shared/lluvia.js"></script>
+<script>Lluvia.iniciar(".lluvia", OFERTAS);</script>
+</body>
+</html>

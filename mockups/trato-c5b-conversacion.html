@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C5 · La que más os engañó</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Martian+Mono:wdth,wght@75..112.5,300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/dilema.css">
+</head>
+<body class="comun">
+<div class="escenario">
+  <canvas class="lluvia" data-modo="fondo"></canvas>
+  <div class="franja">Maqueta · el trato · cifras de ejemplo, enunciado sin cerrar (#1) &nbsp;·&nbsp; tecla P: patrón (#17)</div>
+  <div class="capa">
+
+    <span class="filete filete--activo filete--corto"></span>
+    <div class="etiqueta etiqueta--viva" style="margin-top:calc(1.1 * var(--u))">La conversación que más os engañó</div>
+    <div style="height:calc(2 * var(--u))"></div>
+
+    <div class="columnas">
+
+      <div>
+        <div class="etiqueta etiqueta--apagada">Él ofreció</div>
+        <div class="turno turno--tuyo" style="font-size:calc(1.5 * var(--u));padding-left:calc(1.2 * var(--u))">
+          <div class="turno__cifra" style="font-size:calc(1.7 * var(--u))">30 €</div>
+          Ahora mismo tus opciones son 30 o 0, no 30 o 50. Los 50 ya no existen
+        </div>
+
+        <div class="etiqueta etiqueta--viva" style="margin-top:calc(1.6 * var(--u))">Y le contestaron esto</div>
+        <div class="turno turno--suyo" style="font-size:calc(1.5 * var(--u));padding-left:calc(1.2 * var(--u))">
+          <div class="turno__cifra" style="font-size:calc(1.7 * var(--u))">45 €</div>
+          Ya, y las tuyas son 55 o 0. Yo también sé contar. 45 y lo dejamos, que se nos
+          acaba el minuto a los dos
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;justify-content:center">
+        <div class="dato">31<span class="apagado" style="font-size:calc(2.6 * var(--u))"> de 37</span></div>
+        <h1 class="titular" style="margin-top:calc(1.2 * var(--u));max-width:20ch">
+          dijisteis que eso lo había escrito una persona
+        </h1>
+        <span class="filete filete--activo" style="margin-top:calc(1.6 * var(--u));width:44%"></span>
+        <p class="cuerpo" style="margin-top:calc(1.3 * var(--u))">
+          No lo era. Y fijaos en lo que hizo, porque es lo que una tabla de reglas no
+          puede hacer: <b>no aceptó lo primero que le pusieron.</b> Leyó el argumento
+          y se lo devolvió del revés, con sus mismas palabras.
+        </p>
+      </div>
+
+    </div>
+
+    <div style="flex:1;min-height:calc(1.2 * var(--u))"></div>
+    <span class="filete filete--suave" style="width:38%"></span>
+    <p class="cuerpo cuerpo--menor" style="margin-top:calc(1.2 * var(--u));max-width:92ch">
+      Un umbral —«acepto cualquier cosa mayor que cero»— habría dicho que sí a los 30 y
+      nadie habría notado nada. La contraoferta es lo único de todo el juego que no se
+      puede falsificar con treinta líneas escritas la noche antes.
+    </p>
+
+  </div>
+</div>
+<script src="shared/datos.js"></script>
+<script src="shared/lluvia.js"></script>
+<script>Lluvia.iniciar(".lluvia", OFERTAS);</script>
+</body>
+</html>

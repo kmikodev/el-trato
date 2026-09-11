@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C7 · Instrumento del ponente</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Martian+Mono:wdth,wght@75..112.5,300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/dilema.css">
+</head>
+<body class="comun instrumento">
+<div class="escenario">
+  <div class="franja">Maqueta · el ponente ve esto, la sala no · enunciado sin cerrar (#1)</div>
+  <div class="capa">
+
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div>
+        <span class="filete filete--activo filete--corto"></span>
+        <div class="etiqueta etiqueta--viva" style="margin-top:calc(1 * var(--u))">Instrumento del ponente</div>
+      </div>
+      <div class="etiqueta etiqueta--viva" style="text-align:right;line-height:1.6">
+        No compartas esta pestaña<br>
+        <span style="color:var(--tinta)">Todo lo ámbar es tuyo</span>
+      </div>
+    </div>
+
+    <div style="height:calc(2 * var(--u))"></div>
+
+    <div style="display:flex;gap:calc(3 * var(--u));flex:1;min-height:0">
+
+      <div style="flex:1;min-width:0">
+        <div class="etiqueta">Fases</div>
+        <div style="margin-top:calc(.8 * var(--u))">
+          <div class="fase fase--hecha"><span class="fase__n">1</span> Se reparte</div>
+          <div class="fase fase--ahora"><span class="fase__n">2</span> Se juzga</div>
+          <div class="fase fase--proxima"><span class="fase__n">3</span> El destape</div>
+          <div class="fase"><span class="fase__n">4</span> Segunda oferta</div>
+          <div class="fase"><span class="fase__n">5</span> El agente lee</div>
+          <div class="fase"><span class="fase__n">6</span> La premisa</div>
+          <div class="fase"><span class="fase__n">7</span> Tercera oferta</div>
+        </div>
+      </div>
+
+      <!-- EL CONTROL DE BARRERA. No existía: lo señaló el abogado del diablo.
+           Sin este dato el ponente elige a ciegas entre dejar tirados a unos
+           o hacer esperar a otros. -->
+      <div style="flex:1.25;min-width:0">
+        <div class="etiqueta etiqueta--viva">La barrera</div>
+        <div class="dato" style="font-size:calc(4.6 * var(--u));margin-top:calc(.5 * var(--u))">
+          24<span class="apagado" style="font-size:calc(1.7 * var(--u))"> de 40 han juzgado</span>
+        </div>
+        <div class="barra" style="margin-top:calc(1 * var(--u))"><i style="width:60%"></i></div>
+
+        <div style="margin-top:calc(1.6 * var(--u))">
+          <div class="cola"><span>16 esperando</span><em>media 38 s</em></div>
+          <div class="cola cola--lista"><span>3 sin oferta que juzgar</span><em class="etiqueta--viva">rellenar</em></div>
+          <div class="cola"><span class="apagado">0 sin juez asignado</span><em>ok</em></div>
+        </div>
+
+        <div class="accion" style="border-top:5px solid var(--ambar);color:var(--ambar);
+             font-size:calc(1.7 * var(--u));padding-top:calc(1 * var(--u));min-height:0;margin-top:calc(2 * var(--u))">
+          <span>CORTAR Y SEGUIR</span><span>→</span>
+        </div>
+        <div class="cuerpo cuerpo--menor" style="margin-top:calc(.8 * var(--u))">
+          Los 16 que faltan verán «se acabó el tiempo», no un error.
+        </div>
+      </div>
+
+      <div style="flex:1.2;min-width:0;display:flex;flex-direction:column">
+        <div class="etiqueta">Pendiente de tu visto bueno</div>
+        <div style="margin-top:calc(.8 * var(--u))">
+          <div class="cola"><span class="apagado">Las estrategias</span><em>Publicado 19:41</em></div>
+          <div class="cola cola--lista"><span>La premisa compartida</span><em class="etiqueta--viva">Listo · revisar</em></div>
+          <div class="cola"><span class="apagado">El contraargumento</span><em>Generando</em></div>
+        </div>
+
+        <div class="etiqueta" style="margin-top:calc(2 * var(--u))">La lluvia</div>
+        <div style="margin-top:calc(.7 * var(--u))">
+          <div class="fase fase--proxima"><span class="fase__n">·</span> Protagonista</div>
+          <div class="fase fase--ahora"><span class="fase__n">·</span> Al 10%</div>
+          <div class="fase fase--proxima"><span class="fase__n">·</span> Apagada</div>
+        </div>
+
+        <div style="flex:1;min-height:calc(1 * var(--u))"></div>
+        <div class="cuerpo cuerpo--menor">
+          Nada llega a la pantalla común sin pasar por aquí. Lo que se modera no es lo que
+          la sala escribe: es lo que el agente devuelve.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

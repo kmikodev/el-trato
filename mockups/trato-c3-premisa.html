@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C3 · La premisa compartida</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Martian+Mono:wdth,wght@75..112.5,300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/dilema.css">
+</head>
+<body class="comun">
+<div class="escenario">
+  <canvas class="lluvia" data-modo="fondo"></canvas>
+  <div class="franja">Maqueta · el trato · enunciado sin cerrar (#1) &nbsp;·&nbsp; tecla P: patrón de prueba (#17)</div>
+  <div class="capa">
+    <span class="filete filete--activo filete--corto"></span>
+    <div class="etiqueta etiqueta--viva" style="margin-top:calc(1.3 * var(--u))">Lo que los dos bandos dais por hecho</div>
+
+    <div style="flex:1;min-height:calc(2 * var(--u))"></div>
+
+    <h1 class="momento" style="font-size:calc(5.6 * var(--u))">EL OTRO NO<br>TIENE ARGUMENTOS.<br>SÓLO TIENE<br>UN BOTÓN.</h1>
+
+    <div style="flex:1.1;min-height:calc(2 * var(--u))"></div>
+
+    <span class="filete filete--suave" style="width:38%"></span>
+    <p class="cuerpo cuerpo--menor" style="margin-top:calc(1.2 * var(--u));max-width:86ch">
+      33 de 37. Quien ofrece menos trata al otro como una calculadora que debe llegar a la
+      conclusión que le conviene. Quien ofrece la mitad lo trata como un temperamento que
+      conviene no encender. Ninguno le concede una razón que pudiera contestarle.
+    </p>
+  </div>
+</div>
+<script src="shared/datos.js"></script>
+<script src="shared/lluvia.js"></script>
+<script>Lluvia.iniciar(".lluvia", OFERTAS);</script>
+</body>
+</html>

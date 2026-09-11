@@ -1,0 +1,28 @@
+# ---------------------------------------------------------------------------
+# Los secretos NO se listan aquí: .env está excluido en .git/info/exclude, que
+# es local y no se versiona. Así el nombre del fichero de credenciales no viaja
+# en el repositorio. La red contra despistes es el hook pre-commit.
+# ---------------------------------------------------------------------------
+
+# ---------------------------------------------------------------------------
+# Configuración local de Claude Code (contiene credenciales y preferencias
+# de esta máquina). Lo que sí se comparte con el repo es .claude/settings.json.
+# ---------------------------------------------------------------------------
+.claude/settings.local.json
+.claude/local/
+
+# ---------------------------------------------------------------------------
+# Ruido del sistema operativo y del editor
+# ---------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+
+# ---------------------------------------------------------------------------
+# Todavía no hay stack decidido. Las reglas propias del lenguaje o del
+# framework (node_modules/, __pycache__/, dist/, .venv/...) se añaden en la
+# fase que las traiga, no antes.
+# ---------------------------------------------------------------------------

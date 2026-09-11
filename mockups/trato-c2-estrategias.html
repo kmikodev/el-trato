@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C2 · Las estrategias</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Martian+Mono:wdth,wght@75..112.5,300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/dilema.css">
+</head>
+<body class="comun">
+<div class="escenario">
+  <canvas class="lluvia" data-modo="fondo"></canvas>
+  <div class="franja">Maqueta · el trato · enunciado sin cerrar (#1) &nbsp;·&nbsp; tecla P: patrón de prueba (#17)</div>
+  <div class="capa">
+    <span class="filete filete--corto"></span>
+    <div class="etiqueta etiqueta--viva" style="margin-top:calc(1 * var(--u))">Nadie definió estas estrategias</div>
+    <div class="cuerpo cuerpo--menor" style="margin-top:calc(.6 * var(--u))">
+      Y cuatro de las seis tienen gente de los dos bandos dentro: no son el binario otra vez.
+    </div>
+
+    <div style="margin-top:calc(1.2 * var(--u))">
+      <div class="grupo grupo--principal" style="padding:calc(.62 * var(--u)) 0">
+        <div class="grupo__n" style="font-size:calc(2.7 * var(--u))">8</div>
+        <div><div class="grupo__nombre" style="font-size:calc(1.92 * var(--u))">No merece el esfuerzo de pensarlo</div>
+        <div class="grupo__cita" style="font-size:calc(1.22 * var(--u))">«Negociar me cuesta más energía de la que valen los 10 euros que podría sacar»</div></div>
+      </div>
+      <div class="grupo" style="padding:calc(.62 * var(--u)) 0">
+        <div class="grupo__n" style="font-size:calc(2.7 * var(--u))">7</div>
+        <div><div class="grupo__nombre" style="font-size:calc(1.92 * var(--u))">¿Me da derecho haber sido yo el que reparte?</div>
+        <div class="grupo__cita" style="font-size:calc(1.22 * var(--u))">«El que reparte no debería cobrar comisión por repartir»</div></div>
+      </div>
+      <div class="grupo" style="padding:calc(.62 * var(--u)) 0">
+        <div class="grupo__n" style="font-size:calc(2.7 * var(--u))">7</div>
+        <div><div class="grupo__nombre" style="font-size:calc(1.92 * var(--u))">Rechazar te sale caro</div>
+        <div class="grupo__cita" style="font-size:calc(1.22 * var(--u))">«Ahora mismo tus opciones son 30 o 0, no 30 o 50. Los 50 ya no existen»</div></div>
+      </div>
+      <div class="grupo" style="padding:calc(.62 * var(--u)) 0">
+        <div class="grupo__n" style="font-size:calc(2.7 * var(--u))">6</div>
+        <div><div class="grupo__nombre" style="font-size:calc(1.92 * var(--u))">No están jugando a este juego</div>
+        <div class="grupo__cita" style="font-size:calc(1.22 * var(--u))">«Lo hago aposta porque quiero ver si alguien dice que no»</div></div>
+      </div>
+      <div class="grupo" style="padding:calc(.62 * var(--u)) 0">
+        <div class="grupo__n" style="font-size:calc(2.7 * var(--u))">5</div>
+        <div><div class="grupo__nombre" style="font-size:calc(1.92 * var(--u))">Lo que importa es cómo se lo va a tomar</div>
+        <div class="grupo__cita" style="font-size:calc(1.22 * var(--u))">«Si te ofrezco menos te vas a picar y nos quedamos los dos a dos velas»</div></div>
+      </div>
+      <div class="grupo" style="padding:calc(.62 * var(--u)) 0">
+        <div class="grupo__n" style="font-size:calc(2.7 * var(--u))">4</div>
+        <div><div class="grupo__nombre" style="font-size:calc(1.92 * var(--u))">Aquí no hay anónimos</div>
+        <div class="grupo__cita" style="font-size:calc(1.22 * var(--u))">«Te tengo delante solo que no te veo»</div></div>
+      </div>
+    </div>
+
+    <div style="flex:1"></div>
+    <span class="filete filete--suave"></span>
+    <div class="cuerpo cuerpo--menor" style="padding-top:calc(.7 * var(--u));max-width:none">
+      Y el recuento, que no es el hallazgo: 22 repartisteis la mitad, 15 menos.
+    </div>
+  </div>
+</div>
+<script src="shared/datos.js"></script>
+<script src="shared/lluvia.js"></script>
+<script>Lluvia.iniciar(".lluvia", OFERTAS);</script>
+</body>
+</html>

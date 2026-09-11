@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# Impide que una credencial entre en el historial. En este repositorio el
+# historial se proyecta en una charla, así que un token filtrado no se arregla
+# borrando el commit siguiente.
+set -uo pipefail
+fallo=0
+
+# Ficheros que no se commitean nunca
+while IFS= read -r f; do
+  case "$f" in
+    .env.example) ;;
+    .env|.env.*)  echo "pre-commit: '$f' no puede commitearse." >&2; fallo=1 ;;
+  esac
+done < <(git diff --cached --name-only --diff-filter=ACM)
+
+# Contenido con pinta de token de GitHub, venga en el fichero que venga
+if git diff --cached -U0 --diff-filter=ACM \
+   | grep -qE '^\+.*(gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,})'; then
+  echo "pre-commit: hay algo con forma de token de GitHub en los cambios." >&2
+  echo "            .mcp.json debe llevar \${GITHUB_PAT}, no el token literal." >&2
+  fallo=1
+fi
+
+[[ $fallo -eq 0 ]] || { echo "pre-commit: commit abortado." >&2; exit 1; }

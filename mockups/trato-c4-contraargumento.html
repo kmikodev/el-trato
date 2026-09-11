@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C4 · El contraargumento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Martian+Mono:wdth,wght@75..112.5,300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/dilema.css">
+</head>
+<body class="comun">
+<div class="escenario">
+  <canvas class="lluvia" data-modo="fondo"></canvas>
+  <div class="franja">Maqueta · el trato · enunciado sin cerrar (#1) &nbsp;·&nbsp; tecla P: patrón de prueba (#17)</div>
+  <div class="capa">
+    <span class="filete filete--corto"></span>
+    <div class="etiqueta etiqueta--viva" style="margin-top:calc(1 * var(--u))">El contraargumento</div>
+    <div style="height:calc(2.2 * var(--u))"></div>
+
+    <div class="columnas">
+      <div>
+        <h1 class="titular" style="max-width:24ch">
+          No podéis tener razón los dos sobre las mismas 37 personas.
+        </h1>
+        <p class="cuerpo" style="margin-top:calc(1.8 * var(--u))">
+          Veintidós repartís mitad <b>porque creéis que el otro sí dirá que no</b>. Quince
+          repartís treinta <b>porque creéis que ese no es una estupidez</b>.
+        </p>
+        <p class="cuerpo" style="margin-top:calc(1.2 * var(--u))">
+          Si tienen razón los quince, el 50/50 de veintidós de vosotros es un peaje pagado
+          por un miedo infundado. Si la tienen los veintidós, quince habéis calculado con
+          un modelo que se rompe en cuanto el de enfrente tenga la dignidad más barata de
+          lo que pensáis.
+        </p>
+      </div>
+
+      <div style="display:flex;flex-direction:column;justify-content:center;gap:calc(2.2 * var(--u))">
+        <div class="cita">
+          <span class="etiqueta etiqueta--viva">Literal, de la sala</span>
+          Si te ofrezco menos te vas a picar, lo vas a rechazar por orgullo y nos quedamos
+          los dos a dos velas. Prefiero 50 seguros
+        </div>
+        <div class="cita">
+          <span class="etiqueta etiqueta--viva">Literal, de la sala</span>
+          El que dice que no por dignidad se va a casa con la dignidad intacta y la cartera
+          igual de vacía
+        </div>
+        <div class="cuerpo cuerpo--menor">
+          La capacidad de decir que no es lo único que sostiene vuestras dos estrategias, y
+          es lo único que ninguno le reconoce al otro.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="shared/datos.js"></script>
+<script src="shared/lluvia.js"></script>
+<script>Lluvia.iniciar(".lluvia", OFERTAS);</script>
+</body>
+</html>

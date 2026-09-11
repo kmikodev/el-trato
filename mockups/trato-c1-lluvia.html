@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C1 · Las ofertas, sin clasificar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Martian+Mono:wdth,wght@75..112.5,300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/dilema.css">
+</head>
+<body class="comun">
+<div class="escenario">
+  <canvas class="lluvia" data-modo="protagonista" style="height:calc(100% - 12.5 * var(--u))"></canvas>
+  <div class="franja">Maqueta · el trato · enunciado sin cerrar (#1) &nbsp;·&nbsp; tecla P: patrón de prueba (#17)</div>
+  <div class="capa" style="justify-content:flex-end">
+    <span class="filete filete--corto"></span>
+    <div class="etiqueta etiqueta--viva" style="margin-top:calc(1.2 * var(--u))">Lo que os habéis dicho unos a otros</div>
+    <div class="cuerpo" style="margin-top:calc(.9 * var(--u))">
+      37 intentos de convencer a un desconocido. Sin clasificar, sin contar, sin tocar.
+    </div>
+  </div>
+</div>
+<script src="shared/datos.js"></script>
+<script src="shared/lluvia.js"></script>
+<script>Lluvia.iniciar(".lluvia", OFERTAS);</script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Arranca Claude Code con el entorno de este repositorio.
+#
+# Existe por un motivo concreto: la expansión ${GITHUB_PAT} de .mcp.json lee el
+# entorno del proceso que arranca `claude`. No lee el .env, ni el bloque "env"
+# de .claude/settings.local.json. Sin esto, el header sale como "Bearer " vacío
+# y el servidor MCP de GitHub responde 400.
+#
+# Uso:  ./bin/dilema        (en vez de `claude`)
+set -euo pipefail
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
+
+[[ -f .env ]] || { echo "No hay .env. Copia .env.example a .env y rellena GITHUB_PAT." >&2; exit 1; }
+set -a; . ./.env; set +a
+[[ -n "${GITHUB_PAT:-}" ]] || { echo "GITHUB_PAT vacío en .env: el MCP de GitHub no autenticará." >&2; exit 1; }
+
+exec claude "$@"

@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>C5 · Persona o máquina</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Martian+Mono:wdth,wght@75..112.5,300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/dilema.css">
+</head>
+<body class="comun">
+<div class="escenario">
+  <canvas class="lluvia" data-modo="fondo"></canvas>
+  <div class="franja">Maqueta · el trato · cifras de ejemplo, enunciado sin cerrar (#1) &nbsp;·&nbsp; tecla P: patrón (#17)</div>
+  <div class="capa">
+    <span class="filete filete--activo filete--corto"></span>
+    <div class="etiqueta etiqueta--viva" style="margin-top:calc(1.1 * var(--u))">¿La reconocisteis?</div>
+
+    <div style="height:calc(2 * var(--u))"></div>
+
+    <div class="columnas" style="align-items:center">
+      <div>
+        <div class="dato">47<span class="apagado" style="font-size:calc(3 * var(--u))">%</span></div>
+        <h1 class="titular" style="margin-top:calc(1.4 * var(--u));max-width:20ch">
+          acertasteis si era una persona o la máquina
+        </h1>
+        <p class="cuerpo cuerpo--menor" style="margin-top:calc(1.2 * var(--u))">
+          Tirando una moneda habríais sacado 50.
+        </p>
+      </div>
+
+      <div>
+        <div class="grupo" style="border-top:5px solid var(--fosforo);padding:calc(.9 * var(--u)) 0">
+          <div class="grupo__n">58%</div>
+          <div><div class="grupo__nombre">la cazasteis si era Haiku</div></div>
+        </div>
+        <div class="grupo" style="padding:calc(.9 * var(--u)) 0">
+          <div class="grupo__n">36%</div>
+          <div><div class="grupo__nombre">si era Sonnet</div></div>
+        </div>
+        <div class="grupo" style="padding:calc(.9 * var(--u)) 0">
+          <div class="grupo__n" style="color:var(--tinta)">9</div>
+          <div><div class="grupo__nombre">ofertas que la máquina aceptó y una persona rechazó</div></div>
+        </div>
+        <div class="cuerpo cuerpo--menor" style="margin-top:calc(1.4 * var(--u))">
+          La mitad de las contrapartes máquina eran Haiku y la otra mitad Sonnet. No se os
+          dijo, y se nota en el marcador.
+        </div>
+      </div>
+    </div>
+
+    <div style="flex:1;min-height:calc(1.5 * var(--u))"></div>
+    <span class="filete filete--suave" style="width:38%"></span>
+    <p class="cuerpo" style="margin-top:calc(1.2 * var(--u));max-width:88ch">
+      Y los que más cobrasteis no fue por convencer mejor: fue porque os tocó la máquina.
+      <b>62 € de media contra 44 €.</b>
+    </p>
+  </div>
+</div>
+<script src="shared/datos.js"></script>
+<script src="shared/lluvia.js"></script>
+<script>Lluvia.iniciar(".lluvia", OFERTAS);</script>
+</body>
+</html>

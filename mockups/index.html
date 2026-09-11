@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>el dilema · maqueta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Martian+Mono:wdth,wght@75..112.5,300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/dilema.css">
+<style>
+  body{ padding:var(--e5) var(--e4) var(--e6); }
+  .hoja{ max-width:1240px; margin:0 auto; }
+
+  h1{ font-family:var(--display); font-weight:700; font-variation-settings:"wdth" 112.5;
+      font-size:44px; line-height:1.1; letter-spacing:-.01em; }
+  h2{ font-family:var(--display); font-weight:700; font-variation-settings:"wdth" 100;
+      font-size:26px; line-height:1.2; }
+  p{ font-size:17px; line-height:1.65; max-width:72ch; }
+  a{ color:var(--fosforo); text-decoration:none; border-bottom:2px solid var(--linea); }
+  a:hover{ border-bottom-color:var(--fosforo); }
+
+  .aviso{ border-left:3px solid var(--fosforo); padding-left:var(--e2); margin-top:var(--e3); }
+  .aviso b{ color:var(--fosforo); font-weight:600; }
+
+  section{ margin-top:var(--e6); }
+  section > .etiqueta{ font-size:13px; }
+  .tira{ display:flex; flex-wrap:wrap; gap:var(--e4); margin-top:var(--e4); }
+
+  figure{ width:max-content; }
+  .lente{ position:relative; overflow:hidden; border:2px solid var(--linea); background:var(--fondo); }
+  .lente iframe{ position:absolute; top:0; left:0; border:0; transform-origin:0 0; }
+  .movil .lente{ width:203px; height:439px; }
+  .movil iframe{ width:390px; height:844px; transform:scale(.52); }
+  .ancho .lente{ width:576px; height:324px; }
+  .ancho iframe{ width:1280px; height:720px; transform:scale(.45); }
+
+  figcaption{ margin-top:var(--e2); }
+  .movil figcaption{ width:203px; }
+  .ancho figcaption{ width:576px; }
+  .n{ font-family:var(--display); font-weight:700; color:var(--fosforo); margin-right:.6em; }
+  .nombre{ font-size:16px; line-height:1.4; }
+  .nota{ font-size:14px; line-height:1.55; color:var(--tinta); margin-top:var(--e1); opacity:.78; }
+  figcaption a{ font-size:13px; text-transform:uppercase; letter-spacing:.14em;
+                font-weight:600; display:inline-block; margin-top:var(--e1); }
+</style>
+</head>
+<body>
+<div class="hoja">
+
+  <div class="etiqueta etiqueta--viva">Fase de prototipado · entrada de OpenPencil</div>
+  <h1 style="margin-top:var(--e2)">el trato<br>quince pantallas</h1>
+
+  <p style="margin-top:var(--e3)">
+    Las quince pantallas de la charla, en HTML estático, agrupadas en los dos momentos.
+    El sistema que las gobierna está en <a href="../DESIGN.md">DESIGN.md</a>, que se
+    escribió antes que ellas; si un valor no está en <code>shared/dilema.css</code>, es
+    que alguien lo ha inventado en una pantalla suelta.
+  </p>
+
+  <div class="aviso">
+    <p><b>El dilema es de ejemplo.</b> El real sigue sin decidir (issue #1), así que
+    cada pantalla lleva una franja que lo dice dentro. Esto no lo cierra.</p>
+  </div>
+
+  <div class="aviso">
+    <p><b>La lluvia es de verdad.</b> Canvas, acoplada a las 37 justificaciones de
+    ejemplo. Abre <em>04</em> a pantalla completa, compártela por Meet y mira el otro
+    lado: eso es la issue #17. La tecla <b>P</b> enciende un patrón de prueba con los
+    fotogramas por segundo, filetes de 1 a 5px y la escala tipográfica, para decidir qué
+    grosor y qué cuerpo aguantan el códec.</p>
+  </div>
+
+  <div class="aviso">
+    <p><b>Esto no elige el stack.</b> HTML plano es el material de una maqueta, no una
+    decisión de plataforma. El stack sigue abierto.</p>
+  </div>
+
+  <!-- ============ EL TRATO · MÓVIL ============ -->
+  <section>
+    <div class="etiqueta etiqueta--viva">Momento uno · el móvil</div>
+    <h2 style="margin-top:var(--e1)">El trato</h2>
+    <p style="margin-top:var(--e2)">
+      Hay 100 € y los repartes tú. Tu contraparte sólo puede aceptar o rechazar, y puede
+      ser alguien de la charla o la máquina. Lo sabrás al final, con el dinero.
+      El enunciado está en <a href="../DILEMAS.md">DILEMAS.md</a> y <b>no está cerrado</b>:
+      el abogado del diablo le ha encontrado dos agujeros de enunciado que siguen abiertos.
+    </p>
+    <div class="tira">
+      <figure class="movil">
+        <div class="lente"><iframe src="trato-01-oferta.html" title="T1"></iframe></div>
+        <figcaption>
+          <div class="nombre"><span class="n">T1</span>La oferta</div>
+          <div class="nota">Ahora pide <b>una cifra</b>, no un binario. Con el binario el pago del destape no era computable, y «menos de la mitad» era una etiqueta moral que te ponías tú solo delante de tus compañeros. Las dos cosas se arreglan con el mismo control.</div>
+          <a href="trato-01-oferta.html" target="_blank">Abrir sola ↗</a>
+        </figcaption>
+      </figure>
+      <figure class="movil">
+        <div class="lente"><iframe src="trato-02-persuasion.html" title="T2"></iframe></div>
+        <figcaption>
+          <div class="nombre"><span class="n">T2</span>Lo que le dirías</div>
+          <div class="nota">El cambio grande: lo que se escribe no es una opinión, es un intento de convencer. La retórica se agrupa mucho mejor que una postura.</div>
+          <a href="trato-02-persuasion.html" target="_blank">Abrir sola ↗</a>
+        </figcaption>
+      </figure>
+      <figure class="movil">
+        <div class="lente"><iframe src="trato-03-respuesta.html" title="T3"></iframe></div>
+        <figcaption>
+          <div class="nombre"><span class="n">T3</span>Su respuesta, y tu última palabra</div>
+          <div class="nota">Aquí está el cambio: <b>ya no es una tirada, es una
+          conversación de tres tiempos.</b> Te contraoferta con un argumento que usa el
+          tuyo, y tú cierras o te plantas. Los turnos se distinguen con filete y sangría,
+          no con burbujas: una burbuja es una caja con borde y fondo.</div>
+          <a href="trato-03-respuesta.html" target="_blank">Abrir sola ↗</a>
+        </figcaption>
+      </figure>
+      <figure class="movil">
+        <div class="lente"><iframe src="trato-04-apuesta.html" title="T4"></iframe></div>
+        <figcaption>
+          <div class="nombre"><span class="n">T4</span>La apuesta</div>
+          <div class="nota">Con dos mensajes suyos leídos, no con uno. Acertar no da
+          dinero: sólo da razón, y eso se dice en la pantalla.</div>
+          <a href="trato-04-apuesta.html" target="_blank">Abrir sola ↗</a>
+        </figcaption>
+      </figure>
+      <figure class="movil">
+        <div class="lente"><iframe src="trato-05-destape.html" title="T5"></iframe></div>
+        <figcaption>
+          <div class="nombre"><span class="n">T5</span>El destape</div>
+          <div class="nota">Cuánto cobras, qué era, si acertaste. Y el remate:
+          <b>te sacó 15 €</b>. No aceptó lo primero que le pusiste.</div>
+          <a href="trato-05-destape.html" target="_blank">Abrir sola ↗</a>
+        </figcaption>
+      </figure>
+      <figure class="movil">
+        <div class="lente"><iframe src="trato-06-segunda-antes.html" title="T6"></iframe></div>
+        <figcaption>
+          <div class="nombre"><span class="n">T6</span>Segunda oferta · antes</div>
+          <div class="nota">El agente todavía no ha hablado. Existe sólo para poder restar.</div>
+          <a href="trato-06-segunda-antes.html" target="_blank">Abrir sola ↗</a>
+        </figcaption>
+      </figure>
+      <figure class="movil">
+        <div class="lente"><iframe src="trato-07-segunda-despues.html" title="T7"></iframe></div>
+        <figcaption>
+          <div class="nombre"><span class="n">T7</span>Tercera oferta · después</div>
+          <div class="nota">Y ésta después de la premisa. <b>La diferencia entre T6 y T7
+          es lo único atribuible al agente.</b></div>
+          <a href="trato-07-segunda-despues.html" target="_blank">Abrir sola ↗</a>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- ============ EL TRATO · VISTA COMÚN ============ -->
+  <section>
+    <div class="etiqueta etiqueta--viva">Momento dos · 16:9</div>
+    <h2 style="margin-top:var(--e1)">Lo que ve la sala</h2>
+    <p style="margin-top:var(--e2)">
+      <b>El contenido de estas pantallas no está inventado.</b> Las 37 ofertas las escribió
+      una sala simulada que no sabía que alguien iba a buscar una premisa, y los grupos, la
+      premisa y el contraargumento los sacó otro agente leyéndolas en frío. El ensayo entero
+      está contado en <a href="../DILEMAS.md">DILEMAS.md</a>.
+    </p>
+    <div class="tira">
+      <figure class="ancho">
+        <div class="lente"><iframe src="trato-c1-lluvia.html" title="C1"></iframe></div>
+        <figcaption>
+          <div class="nombre"><span class="n">C1</span>Las ofertas cayendo, sin clasificar</div>
+          <div class="nota">37 intentos de convencer a un desconocido, cada columna el de una persona. <b>Ésta es la que hay que compartir por Meet para medir la #17.</b> Tecla P para el patrón de prueba.</div>
+          <a href="trato-c1-lluvia.html" target="_blank">Abrir sola ↗</a>
+        </figcaption>
+      </figure>
+      <figure class="ancho">
+        <div class="lente"><iframe src="trato-c2-estrategias.html" title="C2"></iframe></div>
+        <figcaption>
+          <div class="nombre"><span class="n">C2</span>Las estrategias que emergen</div>
+          <div class="nota">Seis grupos que nadie definió, y cuatro tienen gente de los dos bandos dentro: no reproducen el binario. Cada uno con su cita literal, que es lo que una tabla de reglas no puede falsificar.</div>
+          <a href="trato-c2-estrategias.html" target="_blank">Abrir sola ↗</a>
+        </figcaption>
+      </figure>
+      <figure class="ancho">
+        <div class="lente"><iframe src="trato-c3-premisa.html" title="C3"></iframe></div>
+        <figcaption>
+          <div class="nombre"><span class="n">C3</span>La premisa compartida</div>
+          <div class="nota">33 de 37. El momento que justifica la aplicación entera, así que es el fotograma más quieto: lluvia al 10%, saltos de línea a mano y nada alrededor.</div>
+          <a href="trato-c3-premisa.html" target="_blank">Abrir sola ↗</a>
+        </figcaption>
+      </figure>
+      <figure class="ancho">
+        <div class="lente"><iframe src="trato-c4-contraargumento.html" title="C4"></iframe></div>
+        <figcaption>
+          <div class="nombre"><span class="n">C4</span>El contraargumento</div>
+          <div class="nota">No ataca a ningún bando: ataca la contradicción entre los dos. Con las dos citas reales que lo sostienen.</div>
+          <a href="trato-c4-contraargumento.html" target="_blank">Abrir sola ↗</a>
+        </figcaption>
+      </figure>
+      <figure class="ancho">
+        <div class="lente"><iframe src="trato-c5b-conversacion.html" title="C5"></iframe></div>
+        <figcaption>
+          <div class="nombre"><span class="n">C5</span>La que más os engañó</div>
+          <div class="nota">La pantalla que la conversación larga hace posible, y que
+          <b>responde a la objeción más fea del abogado del diablo</b>: un umbral habría
+          aceptado los 30 y nadie habría notado nada. Contraofertar usando el argumento
+          del otro no se falsifica con treinta líneas escritas la noche antes.</div>
+          <a href="trato-c5b-conversacion.html" target="_blank">Abrir sola ↗</a>
+        </figcaption>
+      </figure>
+      <figure class="ancho">
+        <div class="lente"><iframe src="trato-c5-turing.html" title="C5"></iframe></div>
+        <figcaption>
+          <div class="nombre"><span class="n">C6</span>¿La reconocisteis?</div>
+          <div class="nota">La pantalla que sólo existe porque hay juego. Y el experimento que no cuesta nada: mitad de contrapartes Haiku, mitad Sonnet, y los dos porcentajes por separado.</div>
+          <a href="trato-c5-turing.html" target="_blank">Abrir sola ↗</a>
+        </figcaption>
+      </figure>
+      <figure class="ancho">
+        <div class="lente"><iframe src="trato-c6-movimiento.html" title="C6"></iframe></div>
+        <figcaption>
+          <div class="nombre"><span class="n">C7</span>Cuánto os movisteis, y por qué</div>
+          <div class="nota">Tres medidas en vez de dos. La de en medio es toda la diferencia entre una cifra comprobable y una cifra que no se puede defender delante de gente técnica.</div>
+          <a href="trato-c6-movimiento.html" target="_blank">Abrir sola ↗</a>
+        </figcaption>
+      </figure>
+      <figure class="ancho">
+        <div class="lente"><iframe src="trato-c7-instrumento.html" title="C7"></iframe></div>
+        <figcaption>
+          <div class="nombre"><span class="n">C8</span>El instrumento del ponente</div>
+          <div class="nota">Ámbar y ni una gota de fósforo. Lleva el <b>control de barrera</b> que no existía: cuántos han juzgado, cuántos esperan, cuántos se han quedado sin oferta que juzgar, y el corte.</div>
+          <a href="trato-c7-instrumento.html" target="_blank">Abrir sola ↗</a>
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+</div>
+</body>
+</html>

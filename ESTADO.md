@@ -5,7 +5,8 @@ El handoff entre sesiones: lo de hoy, no las reglas. Las reglas permanentes est�
 en `DESIGN.md`. Este fichero se actualiza al cerrar cada fase y se lee al empezar cualquier
 sesión.
 
-**Actualizado:** 11 de septiembre de 2026, al arrancar el repositorio.
+**Actualizado:** 11 de septiembre de 2026, al cerrar la fase que publica el repositorio en
+`kmikodev/el-trato` y monta encima el ciclo de tres sesiones.
 
 ## Dónde estamos
 
@@ -16,7 +17,12 @@ razonamiento de por qué es ésta.
 
 **La aplicación es el trato**, el de repartir los 100 €. Eso ya no se rediscute.
 
-**Sigue sin haber una línea de código de la aplicación.**
+**Sigue sin haber una línea de código de la aplicación.** Lo que sí hay ya es **la forma de
+escribirla**: esta fase monta el ciclo de tres sesiones de Claude Code —gestor, dev y qa—
+que se reparten una issue, la trabajan en una rama y la mergean por PR, hablándose con la
+mensajería nativa entre sesiones y dejando en GitHub todo lo que deba sobrevivir. Está en la
+skill `handoff`, con un fichero por rol. La regla que lo gobierna: **los mensajes llevan lo
+efímero, GitHub guarda lo decidido.**
 
 ## Qué se trae decidido
 
@@ -28,6 +34,29 @@ razonamiento de por qué es ésta.
 - **El stack**: Firebase Hosting, Firestore en modo nativo y Cloud Run, todo en
   `europe-southwest1`. Ojo: **la región de Firestore es permanente** y ya no se puede
   cambiar sin crear otro proyecto.
+
+## Qué se decidió en esta fase
+
+- **El ciclo de tres sesiones**, en la skill `handoff`. Una tarea, un dueño; `main` solo
+  cambia por merge de una PR aprobada; el que revisa no arregla.
+- **El hook `no-commit-a-mano.sh` se afloja fuera de `main`.** Sin eso el dev no puede
+  commitear y el ciclo no cierra una sola vuelta. Deniega en `main`, con el HEAD suelto,
+  fuera de un repositorio, y en los comandos compuestos que se mueven antes de commitear
+  —`git switch main && git commit …` esquivaba la comprobación, porque un `PreToolUse`
+  decide antes de que el comando corra y lee la rama de ahora, no la rama donde caerá el
+  commit—. Se probó con once casos. **Lo que se pierde está dicho en `CLAUDE.md`:** sobre
+  las ramas de trabajo esto ya no es una cerradura sino una señal, porque el agente puede
+  fabricarse la excepción con un `checkout -b`. Lo que blindaría `main` de verdad es una
+  regla de protección de rama en el servidor, y **no está puesta**.
+- **El servidor MCP `playwright`** (`npx @playwright/mcp@0.0.80`), en `.mcp.json`, con sus
+  permisos de lectura en `.claude/settings.json`. Sin credenciales.
+- **La skill `claude-api`**, con lo que hace falta saber de la Messages API para cuando haya
+  que llamarla.
+- **El dev trabaja en un worktree propio**, no en una rama del árbol principal. No estaba en
+  `DEV.md`, que dice `git switch -c`; se cambia porque aísla al dev del árbol de `main`,
+  donde el trabajo se acumula sin commitear hasta que se cierra una fase. **El worktree
+  tiene que nacer después del commit de cierre**, o se lleva dentro una copia vieja de
+  `.claude/` y con ella el hook que deniega todos los commits.
 
 ## Qué bloquea
 
@@ -57,15 +86,26 @@ Por orden, y el primero manda sobre el resto:
 Cerrar el punto 1 y el punto 8, que son los dos que no dependen de nada más y desbloquean
 el esquema de datos. Después, el esquema.
 
-Cuando haya remoto, **hay que volver a crear las issues**: el repositorio anterior tenía
-cuarenta y una y aquí no hay ninguna. La lista de lo que merece issue está en el bloque «qué
-bloquea» de este fichero y al final de `CONCEPTO.md`.
+La primera tarea que entra en el ciclo es la **#39, la pantalla de esperar**, y entra
+**recortada**: solo la primera barrera, la de pool, con el contador público sin nombres. La
+segunda barrera y el plazo visible se quedan fuera porque dependen de la #30 y la #29, que
+son `pregunta-abierta` y no las decide ni el gestor ni el dev.
+
+Las issues ya están: **39 en `kmikodev/el-trato`**, migradas de las 40 abiertas del
+repositorio anterior. Cayeron dos —la prueba del anclaje, que ya no tiene objeto con la
+aplicación decidida, y la de elegir almacén de estado, que resolvió el stack— y se abrió una
+nueva para el presupuesto, que había quedado cerrado con un número que esta aplicación no
+cumple. **Las referencias cruzadas están reescritas a la numeración nueva**, tanto dentro de
+las issues como en `DESIGN.md` y `DILEMAS.md`.
 
 ## Qué está roto ahora mismo
 
-- **No hay remoto ni issues.** El `.mcp.json` y la configuración de GitHub vienen del
-  repositorio anterior y apuntan a `kmikodev/el-dilema`. Hay que decidir si este proyecto
-  usa ese mismo remoto o uno nuevo, y hasta entonces el MCP de GitHub no sirve de nada aquí.
+- **El repositorio anterior sigue en disco a medio desmontar.** En `../DILEMA` quedan
+  cuatro documentos viejos y un árbol con todo marcado como borrado, porque los ficheros se
+  movieron aquí. Si alguien commitea ahí sin mirar, deja el repositorio vacío y los tags
+  `00-inicio` a `03-prototipado` apuntando a un historial que ya no se parece a nada. O se
+  congela tal cual como archivo de cómo se decidió, o se devuelve a `f380e63`. No se puede
+  dejar a medias.
 - **Hay quince maquetas y ninguna es la pantalla de esperar.** El instrumento del ponente sí
   tiene el control de barrera, con «16 esperando · media 38 s»: la barrera está diseñada
   para quien la mira y no para quien la sufre.
@@ -83,4 +123,8 @@ bloquea» de este fichero y al final de `CONCEPTO.md`.
   prueba lo que se quería probar. Hace falta un nulo de verdad. Lo que sí quedó demostrado, y
   rige desde hoy: **la confianza que el agente se da a sí mismo no lleva señal sobre la
   calidad del dilema.** Dio 3 sobre 5 en los dos casos.
+- **El ciclo de tres sesiones tiene poco que masticar.** De las 39 issues abiertas, casi
+  todo lo que no está bloqueado es una **decisión humana** —`pregunta-abierta`— y no trabajo
+  de dev. El ciclo funciona, pero no esperes caudal hasta que se cierren las decisiones del
+  bloque de arriba.
 - No hay código, así que no hay nada más que pueda estar fallando.

@@ -611,10 +611,10 @@ sí se sostiene es la razón de 1,7×–1,9× y la asimetría de la fila de dato
 con varianza alta.
 
 **La fase 04 no es el esquema de datos.** Es corta y sirve para cerrar lo que los tres
-evaluadores condicionan: si la contraparte es siempre la máquina (#32), el presupuesto (#3,
+evaluadores condicionan: si la contraparte es siempre la máquina (#30), el presupuesto (#3,
 ya cerrado) y **cuánto tarda de verdad el tiempo 2**, que `charla` y `viabilidad` piden por
 separado y se mide con ocho personas y un formulario, sin una línea de código. El esquema
 pasa a la 05.
 
-Escribir hoy el esquema sería escribirlo a ciegas: **#32 decide si hay emparejamiento**, y si
+Escribir hoy el esquema sería escribirlo a ciegas: **#30 decide si hay emparejamiento**, y si
 no hay emparejamiento no hay barrera, ni pagos cruzados, ni la mitad del esquema.

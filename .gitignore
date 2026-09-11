@@ -26,3 +26,14 @@ Thumbs.db
 # framework (node_modules/, __pycache__/, dist/, .venv/...) se añaden en la
 # fase que las traiga, no antes.
 # ---------------------------------------------------------------------------
+
+# Direcciones de las sesiones del handoff: son locales a esta máquina
+.claude/handoff/
+
+# Playwright escribe sus capturas en el directorio desde el que corre, así que
+# deja su rastro en la raíz del repositorio sin avisar. Ya estuvo a punto de
+# colarse en un commit de cierre de fase. Las evidencias que sí se guardan van
+# en evidence/<issue>/ dentro de la rama, puestas ahí a mano por la skill
+# `evidencias`; esto de aquí es lo que la herramienta suelta por su cuenta.
+.playwright-mcp/
+/*.png

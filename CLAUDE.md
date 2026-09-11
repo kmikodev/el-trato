@@ -65,11 +65,16 @@ exacto.
   entonces `git checkout 01-setup` es ambiguo: resuelve a la rama y te lleva a
   un sitio distinto del que marcaste. Delante de público eso no se depura.
 - **No se hace `push` nunca sin que se pida**. El remoto es `origin`
-  (`kmikodev/el-dilema`).
-- **No se commitea hasta cerrar una fase.** El trabajo se acumula en el árbol de
-  trabajo; una fase se cierra con un único commit. Si durante una fase parece
-  necesario commitear, se pregunta antes: normalmente significa que en realidad
-  son dos fases.
+  (`kmikodev/el-trato`).
+- **En `main` no se commitea hasta cerrar una fase.** El trabajo se acumula en el
+  árbol de trabajo; una fase se cierra con un único commit. Si durante una fase
+  parece necesario commitear, se pregunta antes: normalmente significa que en
+  realidad son dos fases.
+- **La excepción son las ramas del ciclo de `handoff`.** En una rama
+  `issue-<n>-<slug>` el dev commitea las veces que haga falta: esos commits no
+  entran en `main` sueltos, entran por el merge de una PR aprobada por qa. La
+  regla de arriba protege el historial que se lee en la charla, no el trabajo en
+  curso de una issue.
 - El historial es material de la charla. Se lee en pantalla delante de gente que
   no ha visto el código. Un commit debe entenderse sin abrir el diff.
 
@@ -143,13 +148,20 @@ igual si no hay ningún agente delante: son los de toda la vida.
 y los ejecuta el harness alrededor de las llamadas a herramienta. No miran el contenido:
 gobiernan **la conducta del agente**, y lo hacen antes de que pase nada.
 
-- **`no-commit-a-mano.sh`** es un `PreToolUse` sobre Bash: deniega cualquier intento de
-  commitear que salga de una sesión. Este fichero ya decía que aquí no se commitea a
-  mitad de fase, pero **lo escrito se olvida, y una instrucción es una petición mientras
-  que un hook es una regla**. No tiene vía de escape a propósito: cualquier excepción que
-  el agente pueda activarse él mismo con otro Bash no es una cerradura, es un adorno. La
-  única que queda fuera de su alcance es una persona, así que la skill `cerrar-fase`
-  prepara el mensaje y lo ejecuta quien está delante.
+- **`no-commit-a-mano.sh`** es un `PreToolUse` sobre Bash: deniega los intentos de
+  commitear **estando en `main`**, o con el HEAD suelto. Este fichero ya decía que aquí
+  no se commitea a mitad de fase, pero **lo escrito se olvida, y una instrucción es una
+  petición mientras que un hook es una regla**. En `main` no tiene vía de escape: el
+  commit único de cierre de fase lo prepara la skill `cerrar-fase` y lo ejecuta quien
+  está delante.
+
+  **Fuera de `main` deja pasar**, y conviene saber por qué se aflojó y qué se perdió. El
+  ciclo de `handoff` necesita que el dev commitee en su rama `issue-<n>-<slug>` para
+  abrir la PR, y sin eso las tres sesiones no pueden cerrar una vuelta. El precio es el
+  que este fichero avisaba: **una excepción que el agente puede activarse él mismo —aquí,
+  con un `checkout -b`— no es una cerradura, es una señal.** Sobre las ramas de trabajo
+  ahora es eso, una señal; la cerradura de verdad queda donde importa, que es el
+  historial de `main`, el que se lee en pantalla durante la charla.
 - **`estado-al-dia.sh`** es un `Stop`: al terminar de responder compara la fecha de
   `ESTADO.md` con la del último cambio sin commitear, y avisa si el handoff se ha quedado
   viejo. Avisa y no bloquea, porque un `Stop` que bloquea puede dejar la sesión dando

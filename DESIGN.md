@@ -266,7 +266,7 @@ densidad y los fotogramas bajan con ella, porque el problema no era el brillo. U
 que se mueve cuesta bitrate aunque esté al 10%, y ese bitrate se lo está quitando al
 texto que la sala intenta leer.
 
-**Medir antes de construir.** Que la lluvia sobreviva al códec de Meet es la issue #17 y
+**Medir antes de construir.** Que la lluvia sobreviva al códec de Meet es la issue #16 y
 está sin resolver: lo de arriba son argumentos, no medidas. Por eso las siete pantallas
 de la vista común son HTML autónomo que se abre a pantalla completa y se comparte —se
 mide con la maqueta, no con la aplicación—, y cada una lleva un patrón de prueba que se

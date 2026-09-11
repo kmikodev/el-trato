@@ -1,0 +1,13 @@
+- generic [ref=f156e1]:
+  - generic [ref=f156e2]: Maqueta · el trato · enunciado sin cerrar (#1)
+  - main [ref=f156e3]:
+    - generic [ref=f156e4]: Ya has jugado
+    - heading "Ahora esperas a la sala." [level=1] [ref=f156e5]: Ahora esperasa la sala.
+    - paragraph [ref=f156e6]: Tu 70 / 30 ya está enviado, con lo que escribiste. Cuando haya ofertas que repartir, te llegará una para juzgar.
+    - generic [ref=f156e8]: La sala
+    - generic [ref=f156e9]: "27"
+    - generic [ref=f156e10]: de 40 han hecho su oferta
+    - paragraph [ref=f156e13]: Cada número es alguien de esta charla enviando la suya.
+    - generic [ref=f156e15]:
+      - generic [ref=f156e16]: ESPERANDO
+      - generic [ref=f156e17]: ···

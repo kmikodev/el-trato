@@ -17,6 +17,10 @@
   .aviso b{ color:var(--fosforo); font-weight:600; }
   code{ color:var(--fosforo); }
 
+  .recuento{ font-family:var(--display); font-weight:700; font-size:22px;
+             border-top:5px solid var(--fosforo); padding-top:var(--e2); }
+  .recuento--corto{ color:var(--fosforo); }
+
   .fila{ border-top:2px solid var(--linea); padding:var(--e2) 0; }
   .fila--mal{ border-top:5px solid var(--fosforo); }
   .fila__nombre{ font-family:var(--display); font-weight:700; font-size:19px; }
@@ -48,7 +52,11 @@
     <code>http://localhost:8000/auditoria.html</code>.</p>
   </div>
 
-  <div id="salida" style="margin-top:var(--e5)"></div>
+  <!-- El recuento va ARRIBA y siempre, incluso mientras corre. Una lista corta
+       se lee igual que una lista completa, y ése era el fallo: la herramienta
+       aprobaba por omisión lo que no había llegado a mirar. -->
+  <div id="recuento" class="recuento" style="margin-top:var(--e5)">Auditando…</div>
+  <div id="salida"></div>
 </div>
 
 <script>
@@ -78,6 +86,14 @@ function palabras(t){ return t.trim().split(/\s+/).filter(Boolean).length; }
 // se usa el vocabulario del propio sistema, no un umbral inventado aquí.
 function esEtiqueta(el){
   return !!(el.closest && el.closest('.etiqueta, .franja, .fase, .cola em'));
+}
+
+// Un 404 no dispara `onerror`: el servidor devuelve una PÁGINA de error y el
+// iframe la carga como si tal cosa, así que `onload` salta igual y sin esto la
+// auditoría acabaría midiendo la página de error y quejándose de sus colores.
+// Toda maqueta enlaza el CSS del sistema; lo que no lo enlace, no es una maqueta.
+function esMaqueta(doc){
+  return !!(doc && doc.querySelector && doc.querySelector('link[href*="dilema.css"]'));
 }
 
 function audita(doc){
@@ -168,27 +184,96 @@ function pinta(nombre, r){
   document.getElementById('salida').appendChild(d);
 }
 
+// El recuento: mientras corre dice por dónde va, y al acabar dice cuántas de
+// cuántas. Si no salen las dieciséis, se ve sin contar filas.
+// Dos cuentas distintas, y hay que separarlas o el recuento se contradice con
+// las filas: `revisadas` es por dónde va la cadena, `auditadas` son las que de
+// verdad se han podido leer. Una pantalla que no carga cuenta como revisada
+// —está en la lista, con su fallo— pero NO como auditada.
+var revisadas = 0, auditadas = 0;
+function recuento(fin){
+  var e = document.getElementById('recuento');
+  var total = PANTALLAS.length;
+  if (!fin){ e.textContent = 'Auditando ' + (revisadas + 1) + ' de ' + total + '…'; return; }
+  var corto = revisadas < total, ciegas = revisadas - auditadas;
+  e.className = 'recuento' + (corto || ciegas ? ' recuento--corto' : '');
+  e.textContent = revisadas + ' de ' + total + ' revisadas' +
+    (ciegas ? ' · ' + ciegas + ' sin poder auditar' : '') +
+    (corto ? ' — FALTAN ' + (total - revisadas) + ', esta lista NO está completa' : '');
+}
+
 // De una en una y no todas a la vez: las pantallas de la vista común montan un
 // canvas con la lluvia, y dieciséis a la vez compiten por la CPU y falsean las medidas.
+//
+// La cadena avanzaba sólo desde `onload`, sin `onerror` y sin plazo. Hoy no
+// fallaba por casualidad —con un 404 el iframe dispara `onload` igual—, pero esa
+// casualidad depende de cómo cargue el iframe, y el día que se rompa la lista se
+// corta a mitad y se lee exactamente igual que una completa. En una herramienta
+// cuyo único trabajo es verificar, callarse es la peor forma de fallar.
+//
+// Así que hay tres salidas hacia adelante y una sola puerta: `avanza()`, que sólo
+// deja pasar la primera que llegue. Sin ese cerrojo, un `onload` que dispara
+// después del plazo auditaría la misma pantalla dos veces.
 (function siguiente(i){
-  if (i >= PANTALLAS.length) return;
+  if (i >= PANTALLAS.length){ recuento(true); return; }
+  recuento(false);
+
   var nombre = PANTALLAS[i][0], ancho = PANTALLAS[i][1];
   var f = document.createElement('iframe');
   f.className = 'marco';
   f.width = ancho;
   f.height = ancho === 390 ? 844 : 720;
-  f.src = nombre;
+
+  var hecho = false, plazo;
+  function avanza(r, leida){
+    if (hecho) return;
+    hecho = true;
+    clearTimeout(plazo);
+    revisadas++;
+    if (leida) auditadas++;
+    pinta(nombre, r);
+    f.remove();
+    siguiente(i + 1);
+  }
+
   f.onload = function(){
+    // el respiro de 260ms deja acabar a las webfonts y al canvas de la lluvia,
+    // que si no se miden a medio pintar
     setTimeout(function(){
-      var r;
-      try { r = audita(f.contentDocument); }
-      catch (e) { r = { fallos: ['No se ha podido leer dentro: ' + e.message +
-                        ' ¿lo has abierto sobre file:// en vez de por un servidor?'], avisos: [] }; }
-      pinta(nombre, r);
-      f.remove();
-      siguiente(i + 1);
+      var r, leida = false;
+      try {
+        var doc = f.contentDocument;
+        if (esMaqueta(doc)){
+          r = audita(doc);
+          leida = true;              // ésta sí se ha podido mirar de verdad
+        } else {
+          r = { avisos: [], fallos: [
+            'Esto no es una maqueta: el servidor ha devuelto otra cosa. Un 404 ' +
+            'devuelve una página de error y el iframe la carga sin dar error, así ' +
+            'que lo más probable es que el fichero no exista.'] };
+        }
+      }
+      catch (e) {
+        r = { avisos: [], fallos: ['No se ha podido leer dentro: ' + e.message +
+              ' ¿lo has abierto sobre file:// en vez de por un servidor?'] };
+      }
+      avanza(r, leida);
     }, 260);
   };
+
+  // Una pantalla que no carga es un fallo de la auditoría, no un hueco: sale
+  // pintada como tal y la cadena sigue.
+  f.onerror = function(){
+    avanza({ fallos: ['No carga. ¿El fichero existe y está en mockups/?'], avisos: [] }, false);
+  };
+
+  // Y el plazo, por si no dispara ninguno de los dos, que es el caso que ni
+  // `onload` ni `onerror` cubren y el que dejaba la cadena colgada para siempre.
+  plazo = setTimeout(function(){
+    avanza({ fallos: ['No ha contestado en 8 s: ni cargó ni dio error. Se da por no auditada.'], avisos: [] }, false);
+  }, 8000);
+
+  f.src = nombre;
   document.body.appendChild(f);
 })(0);
 </script>

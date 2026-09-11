@@ -1,0 +1,90 @@
+# Comandos y medidas · revisión de la PR #47 (issues #44 y #46)
+# qa · 11 de septiembre de 2026
+
+## Qué se juzga
+$ gh api repos/kmikodev/el-trato/compare/main...issue-44-reduced-motion-y-auditoria
+  base 4fe6a41 · 2 ficheros
+    mockups/auditoria.html        +95 -10
+    mockups/trato-02b-espera.html +24 -12
+  commits: bd80f7d (reduced-motion) · e51cd9d (auditoría)
+
+## Montaje: tres servidores para separar los casos
+  8811  la rama tal cual                              -> camino feliz
+  8812  copia con trato-05-destape.html BORRADA       -> 404
+  8813  copia que acepta y NO contesta a esa pantalla -> ni onload ni onerror
+  8814  copia con esa pantalla VÁLIDA pero con el CSS embebido en vez de enlazado
+
+# ─────────────────────────────────────────────────────────────
+# ISSUE #44 · prefers-reduced-motion
+# ─────────────────────────────────────────────────────────────
+
+## Criterio 2: «no hay nada deslizándose». Antes de medir, ¿puede haberlo?
+$ grep -nE "transition|animation|@keyframes" mockups/shared/dilema.css
+  NINGUNA
+$ grep -nE "transition|animation|@keyframes" mockups/trato-02b-espera.html
+  NINGUNA
+  => la barra salta de ancho, no se desliza. Lo único que se movía era el
+     parpadeo de los puntos, y es lo que la PR apaga.
+
+## Criterios 1 y 4: el contador con las dos preferencias
+$ google-chrome --headless --virtual-time-budget=25000 --dump-dom \
+    [--force-prefers-reduced-motion] http://127.0.0.1:8811/trato-02b-espera.html
+
+  normal    1/2/3   contador = 32 / 32 / 32    puntos encendidos = 1
+  reduced   1/2/3   contador = 32 / 31 / 31    puntos encendidos = 0
+
+  El contador sube en los dos casos (arranca en 24). La diferencia de 1 es el
+  azar de `1800 + Math.random()*2700`, no la preferencia: en modo normal los
+  tres tiros tampoco dan lo mismo entre sí en otras tandas. La barra acompaña
+  al número en los dos modos (82,5% con 33, 80% con 32).
+
+## Criterio 3: el @media muerto
+  eliminado en el diff. Comprobado que no queda ningún @media en el fichero.
+
+## El parpadeo en modo normal sigue vivo (no se ha roto de paso)
+  secuencia de los tres puntos, muestreada cada 300 ms:
+    100 100 010 001 001 100 100 010   -> 3 estados distintos, cicla
+
+# ─────────────────────────────────────────────────────────────
+# ISSUE #46 · la auditoría no puede callarse
+# ─────────────────────────────────────────────────────────────
+
+## Camino feliz (8811), que es lo que no debe haberse roto
+  recuento: «16 de 16 revisadas»   sin marca de incompleta
+  16 filas · único fallo: trato-c7-instrumento.html (es la #41, fuera de alcance)
+  8 avisos de fósforo (la #42) · trato-02b-espera.html pasa las seis
+  duración: 4,0 s
+
+## Criterios 1, 3 y 4: una pantalla que no existe (8812, 404)
+  recuento: «16 de 16 revisadas · 1 sin poder auditar»  + clase recuento--corto
+  la cadena llega a 16, no se corta
+  trato-05-destape.html sale pintada como FALLO:
+    «Esto no es una maqueta: el servidor ha devuelto otra cosa...»
+  duración: 4,0 s
+
+## Criterio 2: ni onload ni onerror (8813, servidor mudo)
+  recuento: «16 de 16 revisadas · 1 sin poder auditar»
+  la cadena TERMINA igual, 16 filas
+  trato-05-destape.html:
+    «No ha contestado en 8 s: ni cargó ni dio error. Se da por no auditada.»
+  duración: 12,0 s  (8 del plazo + 4 del resto)
+  pantallas duplicadas: NINGUNA -> el cerrojo `hecho` de avanza() hace su trabajo
+
+## El plazo de 8 s, que el dev dice haberse inventado: cuánto margen tiene
+  tiempo de carga real de cada maqueta, sin caché, medido una a una:
+    01-oferta:7  02-persuasion:8  02b-espera:8  03-respuesta:6  04-apuesta:5
+    05-destape:8  06-segunda-antes:6  07-segunda-despues:12  c1-lluvia:8
+    c2-estrategias:9  c3-premisa:7  c4-contraargumento:9  c5b-conversacion:15
+    c5-turing:9  c6-movimiento:6  c7-instrumento:6            (milisegundos)
+  mediana 8 ms · la más lenta 15 ms
+  => 8 s son 533× la más lenta. El número inventado resulta defendible.
+
+## La sospecha que el propio dev pidió mirar: esMaqueta() (8814)
+  trato-05-destape.html existe, es válida y responde 200, pero lleva el CSS
+  embebido en vez de enlazado. Resultado:
+    recuento: «16 de 16 revisadas · 1 sin poder auditar»
+    sale como FALLO con el texto del 404: «lo más probable es que el fichero
+    no exista» -- y el fichero existe.
+  => el falso negativo es REAL, pero falla EN VOZ ALTA: se ve en el recuento
+     y en la fila. No aprueba por omisión, que es lo que pedía la #46.
+     Lo único flojo es el texto, que afirma una causa que puede ser falsa.

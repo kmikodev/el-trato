@@ -9,18 +9,18 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Martian+Mono:wdth,wght@75..112.5,300..800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="shared/dilema.css">
 <style>
-  /* Los tres puntos de la fila inerte. Es la única animación de la pantalla
-     además del contador, y se permite porque esto es móvil: no pasa por el
-     encoder de Meet, así que la regla de §0 sobre píxeles en movimiento no
-     aplica aquí. En la vista común esto no se podría hacer. */
-  /* El paso de apagado a encendido es de color y no de opacidad: §3 prohibe
-     la opacidad como recurso de estado, igual que el gris y el relleno. */
+  /* Los tres puntos de la fila inerte: la única animación de la pantalla, y se
+     permite porque esto es móvil y no pasa por el encoder de Meet, así que la
+     regla de §0 sobre píxeles en movimiento gobierna la vista común, no ésta.
+     El paso de apagado a encendido es de color y no de opacidad: §3 prohibe la
+     opacidad como recurso de estado, igual que el gris y el relleno.
+
+     Con `prefers-reduced-motion` no se encienden: el script no arranca el ciclo
+     y los tres se quedan en línea, que es el estado base de aquí abajo. No hace
+     falta un @media para eso —hubo uno y lo único que hacía era repetir esta
+     misma regla—, porque lo que hay que apagar es el ciclo, no el color. */
   .puntos span{ color:var(--linea); }
   .puntos span.on{ color:var(--tinta); }
-
-  @media (prefers-reduced-motion: reduce){
-    .puntos span{ color:var(--linea); }
-  }
 </style>
 </head>
 <body class="movil">
@@ -91,6 +91,15 @@
   // un descuido: es la limitación conocida puesta a la vista. Sin #29 y #30
   // resueltas, un número parado y un pool que no se llena se ven exactamente
   // igual desde aquí.
+  //
+  // Sube TAMBIÉN con `prefers-reduced-motion`, y esto es deliberado: la
+  // preferencia pide quitar movimiento, no quitar información. Una cifra que
+  // pasa de 24 a 25 es un cambio de texto, y la barra salta de ancho sin
+  // transición, así que aquí no hay nada que se deslice. Apagarlo dejaba la
+  // pantalla congelada en 24 justo para quien pidió que las cosas no se muevan
+  // —gente con sensibilidad vestibular o migrañas—, y un 24 clavado es
+  // indistinguible de una pantalla rota. Es decir: la preferencia de
+  // accesibilidad entregaba la peor versión de la pantalla a quien la necesita.
   function sube(){
     if (n >= TOTAL) return;
     n++;
@@ -98,9 +107,12 @@
     barra.style.width = (n / TOTAL * 100) + '%';
     setTimeout(sube, 1800 + Math.random() * 2700);
   }
-  if (!quieto) setTimeout(sube, 2200);
+  setTimeout(sube, 2200);
 
-  // Los puntos de la fila inerte, en pasos discretos y no con un degradado.
+  // Lo que sí es movimiento y sí se apaga: el parpadeo de los puntos. En pasos
+  // discretos y no con un degradado. Con la preferencia activada los tres se
+  // quedan quietos en línea y quien lleva el peso de decir que esto sigue vivo
+  // es el número, que para eso sube.
   if (!quieto){
     var i = 0;
     setInterval(function(){

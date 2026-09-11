@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>T2b · La espera</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Martian+Mono:wdth,wght@75..112.5,300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/dilema.css">
+<style>
+  /* Los tres puntos de la fila inerte. Es la única animación de la pantalla
+     además del contador, y se permite porque esto es móvil: no pasa por el
+     encoder de Meet, así que la regla de §0 sobre píxeles en movimiento no
+     aplica aquí. En la vista común esto no se podría hacer. */
+  /* El paso de apagado a encendido es de color y no de opacidad: §3 prohibe
+     la opacidad como recurso de estado, igual que el gris y el relleno. */
+  .puntos span{ color:var(--linea); }
+  .puntos span.on{ color:var(--tinta); }
+
+  @media (prefers-reduced-motion: reduce){
+    .puntos span{ color:var(--linea); }
+  }
+</style>
+</head>
+<body class="movil">
+<div class="franja">Maqueta · el trato · enunciado sin cerrar (#1)</div>
+<main class="pantalla">
+
+  <div class="etiqueta">Ya has jugado</div>
+  <h1 class="pregunta" style="margin-top:var(--e2)">Ahora esperas<br>a la sala.</h1>
+
+  <!-- Qué se espera, dicho como mecanismo y sin una sola palabra de tiempo.
+       Ni «pronto», ni «enseguida», ni cuánto falta: el plazo depende de #29 y
+       aquí no se decide. Un plazo que se incumple pierde a alguien para
+       siempre; un número que sube no se puede incumplir. -->
+  <p class="cuerpo cuerpo--menor" style="margin-top:var(--e3)">
+    Tu 70 / 30 ya está enviado, con lo que escribiste. Cuando haya ofertas que
+    repartir, te llegará una para juzgar.
+  </p>
+
+  <span class="filete filete--suave" style="margin-top:var(--e4)"></span>
+
+  <!-- EL CONTADOR PÚBLICO SIN NOMBRES. El dato existía y sólo lo veía el
+       ponente en su instrumento («24 de 40 han juzgado»); esto es enseñárselo
+       a quien está esperando. Un número, nunca una cola de quién falta: una
+       lista de nombres señala a los lentos delante de sus compañeros.
+
+       La cifra va sola y la frase debajo, no al lado: en una línea no cabían
+       a 390px y desbordaban la pantalla entera. Sola tiene además el espacio
+       alrededor que §3 pide para lo que manda. -->
+  <div class="etiqueta etiqueta--viva" style="margin-top:var(--e4)">La sala</div>
+  <div class="dato" id="cuenta" style="margin-top:var(--e2);font-variant-numeric:tabular-nums">24</div>
+  <div class="cuerpo" style="margin-top:var(--e1)">de 40 han hecho su oferta</div>
+  <div class="barra" style="margin-top:var(--e3)"><i id="barra" style="width:60%"></i></div>
+
+  <!-- Lo que convierte la barra en algo que no es una barra de carga: lo que
+       sube son personas. Cerrar la pestaña deja de ser cerrar una pantalla
+       parada y pasa a ser salirse de algo que está pasando con los demás. -->
+  <p class="cuerpo cuerpo--menor" style="margin-top:var(--e3)">
+    Cada número es alguien de esta charla enviando la suya.
+  </p>
+
+  <div style="flex:1;min-height:var(--e4)"></div>
+
+  <!-- La fila de acción existe en todas las pantallas del móvil y aquí está
+       inerte a propósito: el sitio donde siempre hay algo que pulsar dice que
+       ahora no lo hay. Es el vocabulario de estados de §3 —inactivo = todo en
+       línea—, no un botón deshabilitado con relleno gris. -->
+  <div class="accion accion--inerte">
+    <span>ESPERANDO</span>
+    <span class="puntos"><span>·</span><span>·</span><span>·</span></span>
+  </div>
+
+</main>
+
+<script>
+(function(){
+  var cuenta = document.getElementById('cuenta');
+  var barra  = document.getElementById('barra');
+  var puntos = document.querySelectorAll('.puntos span');
+  var quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var n = 24, TOTAL = 40;
+
+  // El número sube solo, y sube a destiempo. Un intervalo fijo se lee como una
+  // barra de carga —una máquina contando—; los huecos irregulares se leen como
+  // personas terminando cuando terminan, que es lo que de verdad pasa.
+  //
+  // Al llegar a 40 se para y la pantalla no tiene nada más que decir. Eso no es
+  // un descuido: es la limitación conocida puesta a la vista. Sin #29 y #30
+  // resueltas, un número parado y un pool que no se llena se ven exactamente
+  // igual desde aquí.
+  function sube(){
+    if (n >= TOTAL) return;
+    n++;
+    cuenta.textContent = n;
+    barra.style.width = (n / TOTAL * 100) + '%';
+    setTimeout(sube, 1800 + Math.random() * 2700);
+  }
+  if (!quieto) setTimeout(sube, 2200);
+
+  // Los puntos de la fila inerte, en pasos discretos y no con un degradado.
+  if (!quieto){
+    var i = 0;
+    setInterval(function(){
+      puntos.forEach(function(p, k){ p.classList.toggle('on', k === i); });
+      i = (i + 1) % puntos.length;
+    }, 520);
+  }
+})();
+</script>
+</body>
+</html>

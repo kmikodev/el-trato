@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Auditoría · lo comprobable de DESIGN.md</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Martian+Mono:wdth,wght@75..112.5,300..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared/dilema.css">
+<style>
+  body{ padding:var(--e5) var(--e4) var(--e6); }
+  .hoja{ max-width:1100px; margin:0 auto; }
+  h1{ font-family:var(--display); font-weight:700; font-variation-settings:"wdth" 112.5;
+      font-size:40px; line-height:1.1; letter-spacing:-.01em; }
+  p{ font-size:17px; line-height:1.65; max-width:72ch; }
+  .aviso{ border-left:3px solid var(--fosforo); padding-left:var(--e2); margin-top:var(--e3); }
+  .aviso b{ color:var(--fosforo); font-weight:600; }
+  code{ color:var(--fosforo); }
+
+  .fila{ border-top:2px solid var(--linea); padding:var(--e2) 0; }
+  .fila--mal{ border-top:5px solid var(--fosforo); }
+  .fila__nombre{ font-family:var(--display); font-weight:700; font-size:19px; }
+  .fila__ok{ font-size:15px; margin-top:var(--e1); }
+  .fila__fallo{ font-size:15px; line-height:1.5; margin-top:var(--e1);
+                border-left:3px solid var(--fosforo); padding-left:var(--e2); }
+  .fila__aviso{ font-size:15px; line-height:1.5; margin-top:var(--e1);
+                border-left:3px solid var(--linea); padding-left:var(--e2); }
+  .marco{ position:absolute; left:-20000px; top:0; border:0; }
+</style>
+</head>
+<body>
+<div class="hoja">
+
+  <div class="etiqueta etiqueta--viva">Instrumental · no forma parte de la aplicación</div>
+  <h1 style="margin-top:var(--e2)">Lo comprobable<br>de DESIGN.md</h1>
+
+  <p style="margin-top:var(--e3)">
+    Seis reglas del sistema que una máquina puede verificar sola, pasadas sobre todas las
+    maquetas. No sustituye a mirar la pantalla: comprueba lo que se puede contar, que es
+    justo lo que se escapa mirando.
+  </p>
+
+  <div class="aviso">
+    <p><b>Esto necesita un servidor</b>, al revés que las maquetas, que se abren solas.
+    Lee dentro de cada pantalla con un <code>iframe</code>, y sobre <code>file://</code>
+    el navegador lo prohíbe. Desde <code>mockups/</code>:
+    <code>python3 -m http.server 8000</code> y abre
+    <code>http://localhost:8000/auditoria.html</code>.</p>
+  </div>
+
+  <div id="salida" style="margin-top:var(--e5)"></div>
+</div>
+
+<script>
+// La paleta de §1, y ni un color más. Si aparece otro en un texto, es que alguien
+// lo ha inventado en una pantalla suelta.
+var PALETA = {
+  'rgb(5, 7, 5)':'fondo', 'rgb(216, 255, 227)':'tinta', 'rgb(0, 255, 65)':'fosforo',
+  'rgb(31, 122, 52)':'linea', 'rgb(255, 176, 0)':'ambar'
+};
+
+var PANTALLAS = [
+  ['trato-01-oferta.html', 390], ['trato-02-persuasion.html', 390],
+  ['trato-02b-espera.html', 390], ['trato-03-respuesta.html', 390],
+  ['trato-04-apuesta.html', 390], ['trato-05-destape.html', 390],
+  ['trato-06-segunda-antes.html', 390], ['trato-07-segunda-despues.html', 390],
+  ['trato-c1-lluvia.html', 1280], ['trato-c2-estrategias.html', 1280],
+  ['trato-c3-premisa.html', 1280], ['trato-c4-contraargumento.html', 1280],
+  ['trato-c5b-conversacion.html', 1280], ['trato-c5-turing.html', 1280],
+  ['trato-c6-movimiento.html', 1280], ['trato-c7-instrumento.html', 1280]
+];
+
+function palabras(t){ return t.trim().split(/\s+/).filter(Boolean).length; }
+
+// Una etiqueta no es una frase, y el sistema lo dice con una clase. Distinguirlas
+// por el número de palabras convierte la herramienta en un loro: las quince
+// pantallas ya llevan etiquetas de cuatro y cinco palabras y están bien. Así que
+// se usa el vocabulario del propio sistema, no un umbral inventado aquí.
+function esEtiqueta(el){
+  return !!(el.closest && el.closest('.etiqueta, .franja, .fase, .cola em'));
+}
+
+function audita(doc){
+  var fallos = [], avisos = [];
+  var esInstrumento = doc.body.classList.contains('instrumento');
+
+  // §0 — la maqueta no puede desbordar a lo ancho: en el móvil obliga a hacer
+  // zoom, y en la vista común se sale del 16:9 que se comparte.
+  var de = doc.documentElement;
+  if (de.scrollWidth > de.clientWidth)
+    fallos.push('Desborda a lo ancho: ' + de.scrollWidth + 'px sobre ' + de.clientWidth + 'px.');
+
+  doc.querySelectorAll('*').forEach(function(el){
+    var cs = getComputedStyle(el);
+
+    // sólo el texto propio del elemento, no el de sus hijos, para no contar dos veces
+    var propio = Array.prototype.filter
+      .call(el.childNodes, function(n){ return n.nodeType === 3 && n.textContent.trim(); })
+      .map(function(n){ return n.textContent.trim(); }).join(' ');
+
+    if (propio){
+      var nom = PALETA[cs.color];
+      var n = palabras(propio);
+      var cita = propio.slice(0, 44);
+      var etiqueta = esEtiqueta(el);
+
+      if (!nom) fallos.push('Color fuera de la paleta (' + cs.color + '): «' + cita + '»');
+
+      // §1 — la linea esta a 3,7:1 y no puede llevar «una frase que alguien tenga
+      // que leer». Las etiquetas y los estados apagados sí: para eso existe
+      // .etiqueta--apagada. Lo que no vale es texto corrido.
+      if (nom === 'linea' && n > 3 && !etiqueta)
+        fallos.push('Texto corrido en el verde de línea, que se queda en 3,7:1: «' + cita + '»');
+
+      // §1 — el fosforo, racionado por el submuestreo de croma. En texto corrido
+      // es un fallo; en una etiqueta larga es solo un aviso, porque la regla dice
+      // «hasta tres palabras» y las pantallas ya aprobadas la estiran.
+      if (nom === 'fosforo' && n > 3 && isNaN(Number(propio.replace(/[€\s]/g, '')))){
+        if (etiqueta) avisos.push('Etiqueta en fósforo de ' + n + ' palabras, y §1 dice hasta tres: «' + cita + '»');
+        else fallos.push('Fósforo en texto corrido, y ahí va racionado: «' + cita + '»');
+      }
+
+      // §1 — la vista comun no usa ambar nunca; el instrumento no usa fosforo nunca.
+      // Es el salvavidas de la pestaña equivocada: se ve sin leer nada.
+      if (nom === 'ambar' && !esInstrumento)
+        fallos.push('Ámbar fuera del instrumento: «' + cita + '»');
+      if (nom === 'fosforo' && esInstrumento)
+        fallos.push('Fósforo dentro del instrumento: «' + cita + '»');
+    }
+
+    // §0 — nada de 1px: un pixel de alto sobre negro no sobrevive al codec
+    ['borderTopWidth','borderRightWidth','borderBottomWidth','borderLeftWidth'].forEach(function(p){
+      var v = parseFloat(cs[p]);
+      if (v > 0 && v < 2)
+        fallos.push('Filete de ' + v + 'px en ' + (el.className || el.tagName) + ', y el mínimo es 2.');
+    });
+    if (el.tagName !== 'HTML' && el.tagName !== 'BODY'){
+      var h = parseFloat(cs.height);
+      if (h > 0 && h < 2 && cs.backgroundColor !== 'rgba(0, 0, 0, 0)')
+        fallos.push('Raya de ' + h + 'px en ' + (el.className || el.tagName) + ', y el mínimo es 2.');
+    }
+  });
+
+  return { fallos: fallos, avisos: avisos };
+}
+
+function agrupa(lista){
+  // veinte filetes de 1px son un fallo, no veinte
+  var cuenta = {};
+  lista.forEach(function(f){ cuenta[f] = (cuenta[f] || 0) + 1; });
+  return Object.keys(cuenta).map(function(f){
+    return f + (cuenta[f] > 1 ? ' (×' + cuenta[f] + ')' : '');
+  });
+}
+
+function pinta(nombre, r){
+  var d = document.createElement('div');
+  d.className = 'fila' + (r.fallos.length ? ' fila--mal' : '');
+  var h = '<div class="fila__nombre">' + nombre + '</div>';
+  if (!r.fallos.length && !r.avisos.length){
+    h += '<div class="fila__ok">Pasa las seis.</div>';
+  } else {
+    agrupa(r.fallos).forEach(function(f){ h += '<div class="fila__fallo">' + f + '</div>'; });
+    agrupa(r.avisos).forEach(function(a){ h += '<div class="fila__aviso">' + a + '</div>'; });
+    if (!r.fallos.length) h += '<div class="fila__ok">Ningún fallo; sólo lo de arriba, que pide criterio.</div>';
+  }
+  d.innerHTML = h;
+  document.getElementById('salida').appendChild(d);
+}
+
+// De una en una y no todas a la vez: las pantallas de la vista común montan un
+// canvas con la lluvia, y dieciséis a la vez compiten por la CPU y falsean las medidas.
+(function siguiente(i){
+  if (i >= PANTALLAS.length) return;
+  var nombre = PANTALLAS[i][0], ancho = PANTALLAS[i][1];
+  var f = document.createElement('iframe');
+  f.className = 'marco';
+  f.width = ancho;
+  f.height = ancho === 390 ? 844 : 720;
+  f.src = nombre;
+  f.onload = function(){
+    setTimeout(function(){
+      var r;
+      try { r = audita(f.contentDocument); }
+      catch (e) { r = { fallos: ['No se ha podido leer dentro: ' + e.message +
+                        ' ¿lo has abierto sobre file:// en vez de por un servidor?'], avisos: [] }; }
+      pinta(nombre, r);
+      f.remove();
+      siguiente(i + 1);
+    }, 260);
+  };
+  document.body.appendChild(f);
+})(0);
+</script>
+</body>
+</html>

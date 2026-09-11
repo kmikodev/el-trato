@@ -1,0 +1,83 @@
+# Comandos y medidas · revisión de la PR #40 (issue #39)
+# qa · 11 de septiembre de 2026
+
+## El diff real de la rama, separado del cierre de fase
+$ git diff main...issue-39-pantalla-esperar --stat
+ mockups/auditoria.html        | 196 ++++++++++++++++++++++++++++++++++++++++++
+ mockups/index.html            |  12 ++-
+ mockups/trato-02b-espera.html | 114 ++++++++++++++++++++++++
+ 3 files changed, 320 insertions(+), 2 deletions(-)
+
+$ git log --oneline main..issue-39-pantalla-esperar
+7f4d870 chore(maqueta): una auditoría de lo comprobable de DESIGN.md, pasada sobre las dieciséis
+52b4b2b feat(maqueta): la pantalla de esperar, que no existía y por la que pasa buena parte de la sala
+
+## Que los tokens usados existan en el sistema, sin valores inventados
+$ grep -c en mockups/shared/dilema.css
+  --linea            17 apariciones
+  --tinta            17 apariciones
+  --e1               4 apariciones
+  --e2               4 apariciones
+  --e3               5 apariciones
+  --e4               2 apariciones
+  .dato              3 apariciones
+  .barra             3 apariciones
+  .accion--inerte    1 apariciones
+  .filete--suave     1 apariciones
+  .cuerpo--menor     2 apariciones
+  .etiqueta--viva    2 apariciones
+
+## Servidor usado
+  python3 -m http.server 8811 desde mockups/
+  (el 8000 que dice la PR lo ocupaba otro proyecto ajeno en esta máquina)
+
+## Geometría medida en el navegador (Playwright, viewport real verificado)
+
+A 390×844, con barra de scroll de escritorio (artefacto del entorno, no del móvil):
+  documentElement.scrollWidth  375   clientWidth  375   -> NO desborda a lo ancho
+  documentElement.scrollHeight 862   clientHeight 844   -> sobran 18 px
+  .accion--inerte  top 766  bottom 838              -> visible entera
+
+A 390×844 con la barra oculta, que es como se comporta un móvil (overlay):
+  clientWidth 390   scrollHeight 844   -> cabe EXACTO, sin scroll
+  .accion--inerte  bottom 820          -> visible entera
+  => la afirmación de la PR («cabe en 844 sin scroll») es cierta en el móvil.
+     Los 18 px de más sólo aparecen con barra clásica de escritorio.
+
+A 1440×900:
+  no desborda ni a lo ancho ni a lo alto (scrollHeight 900 = clientHeight 900)
+  la pantalla mide 430 px de ancho y queda centrada (left 505)
+  .accion--inerte visible entera
+
+## El contador, medido durante 13 s seguidos (no un fotograma)
+  0.0s:30  1.0s:31  2.0s:31  3.0s:32  4.0s:32  5.0s:32  6.0s:33
+  7.0s:33  8.0s:34  9.0s:34  10.0s:34  11.0s:35  12.0s:35  13.0s:35
+  sube: sí · monótono: sí · huecos irregulares: 2,3,2,3 s
+  la barra sigue al número exactamente: n/40*100% (87,5% con n=35)
+
+## El final, comprobado a propósito
+  al llegar a 40: barra 100%
+  diez segundos después: sigue en 40, no se pasa
+  la fila de acción sigue diciendo «ESPERANDO ···»
+
+## El índice
+  16 tarjetas · orden T1 T2 T2b T3 T4 T5 T6 T7 C1 C2 C3 C4 C5 C6 C7 C8
+  T2b «La espera» queda entre T2 «Lo que le dirías» y T3 «Su respuesta»
+  el recuento del texto dice «dieciséis», ya no «quince»
+
+## La auditoría, ejecutada entera
+  16 de 16 pantallas auditadas, la lista se completa
+  único FALLO: trato-c7-instrumento.html
+     «de 40 han juzgado» y «0 sin juez asignado» en el verde de línea (3,7:1)
+     -> pantalla preexistente, ya recogida en la issue #41
+  8 pantallas con aviso de fósforo -> issue #42
+  trato-02b-espera.html: «Pasa las seis.»
+
+## Comprobación extra: ¿la auditoría se calla si falta una pantalla?
+  probado un iframe a un fichero inexistente: onload SÍ dispara con 404,
+  así que la cadena sigue y no se queda a medias en silencio.
+
+## Consola
+  trato-02b-espera.html recién cargada: 0 mensajes, 0 errores.
+  (En una carga anterior salió un 404 de /favicon.ico: es de servir con
+   http.server a pelo, no de la pantalla.)
